@@ -1,0 +1,120 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Ticket {
+  purchaseNumber: String!
+  title: String!
+  description: String!
+  problem: String!
+  purchaseDetail: String
+  status: String!
+  imageName: String
+  createdAt: String!
+  updatedAt: String
+  isDeleted: Boolean
+}
+
+type User {
+  email: String!
+  username: String!
+  rol: [String!]
+  tickets: [Ticket!]
+  isBlocked: Boolean
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type BlockResponse {
+  email: String!
+  isBlocked: Boolean!
+}
+
+type Query {
+  revalidate: AuthResponse!
+  users(pagination: Pagination): [User!]!
+  user(email: String!): User!
+  tickets(filterInput: FilterInput, pagination: Pagination): [User!]!
+}
+
+input Pagination {
+  limit: Float = null
+  page: Float = 1
+}
+
+input FilterInput {
+  email: String
+  purchaseNumber: Int = null
+  filterParam: String = null
+  status: [String!] = null
+  includeDeleted: Boolean = false
+}
+
+type Mutation {
+  signup(signupInput: SignupInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  blockUser(blockInput: BlockInput!): BlockResponse!
+  createTicket(createTicketInput: CreateTicketInput!): Ticket!
+  updateTicket(updateTicketInput: UpdateTicketInput!): Ticket!
+  deleteTicket(deleteInput: DeleteInput!): Ticket!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  username: String!
+  rol: [String!]! = ["user"]
+  tickets: [String!]! = []
+  isBlocked: Boolean! = false
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  username: String
+  rol: [String!]
+  tickets: CreateTicketInput
+  isBlocked: Boolean = false
+}
+
+input CreateTicketInput {
+  purchaseNumber: Int!
+  title: String!
+  description: String!
+  problem: String!
+  purchaseDetail: String
+  imageName: String
+  isDeleted: Boolean! = false
+}
+
+input BlockInput {
+  email: String!
+  blockAction: Boolean = true
+}
+
+input UpdateTicketInput {
+  purchaseNumber: Int
+  title: String
+  description: String
+  problem: String
+  purchaseDetail: String
+  imageName: String
+  isDeleted: Boolean = false
+  email: String
+  status: String
+}
+
+input DeleteInput {
+  purchaseNumber: Float!
+  email: String
+  deleteAction: Boolean = true
+}
