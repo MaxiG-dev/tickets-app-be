@@ -1,0 +1,851 @@
+{
+	"info": {
+		"_postman_id": "de85eca1-f351-412d-8186-13cf5ffe8540",
+		"name": "Tickets app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Graph",
+			"item": [
+				{
+					"name": "Auth Service",
+					"item": [
+						{
+							"name": "Logout",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.unset(\"token\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}",
+									"host": [
+										"{{HOST}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sign up",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.unset(\"token\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.to.have.status(200)) {",
+											"    pm.collectionVariables.set(\"token\", pm.response.json().data.signup.token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation Signup($signupInput: SignupInput!) {\n  signup(signupInput: $signupInput) {\n    token\n    user {\n      email\n      username\n      rol\n      isBlocked\n    }\n  }\n}",
+										"variables": "{\n  \"signupInput\": {\n    \"email\": \"newuser@gmail.com\",\n    \"password\": \"password1234\",\n    \"username\": \"user name\"\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.unset(\"token\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.to.have.status(200)) {",
+											"    pm.collectionVariables.set(\"token\", pm.response.json().data.login.token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation Login($loginInput: LoginInput!) {\n  login(loginInput: $loginInput) {\n    token\n    user {\n      email\n      username\n      isBlocked\n    }\n  }\n}\n",
+										"variables": "{\n  \"loginInput\": {\n    \"email\": \"edit@gmail.com\",\n    \"password\": \"1ContraSegura!\"\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login Admin",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.unset(\"token\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.to.have.status(200)) {",
+											"    pm.collectionVariables.set(\"token\", pm.response.json().data.login.token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation Login($loginInput: LoginInput!) {\n  login(loginInput: $loginInput) {\n    token\n    user {\n      email\n      username\n      rol\n    }\n  }\n}\n",
+										"variables": "{\n  \"loginInput\": {\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"1ContraSegura!\"\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Revalidate",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Revalidate {\n  revalidate {\n    token\n    user {\n      email\n      username\n      rol\n      isBlocked\n    }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Service",
+					"item": [
+						{
+							"name": "Get User [admin, user]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query User($email: String!) {\n  user(email: $email) {\n    email\n    tickets {\n      purchaseNumber\n    }\n  }\n}",
+										"variables": "{\n  \"email\": \"edit@gmail.com\"\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Users [admin]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Users($pagination: Pagination) {\n  users(pagination: $pagination) {\n    email\n  }\n}",
+										"variables": "{\n    \"pagination\": {\n        \"limit\": 29,\n        \"page\": 1\n    }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User [admin, user]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation UpdateUser($updateUserInput: UpdateUserInput!) {\n  updateUser(updateUserInput: $updateUserInput) {\n    username,\n    email,\n    rol\n  }\n}",
+										"variables": "{\n  \"updateUserInput\": {\n    \"email\": \"edit@gmail.com\",\n    \"username\": \"new name\",\n    \"rol\": [\"user\"]\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Block User [admin]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation BlockInput($blockInput: BlockInput!) {\n  blockUser(blockInput: $blockInput) {\n    email\n    isBlocked\n  }\n}",
+										"variables": "{\n  \"blockInput\": {\n    \"email\": \"edit@gmail.com\",\n    \"blockAction\": false\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tickets Service",
+					"item": [
+						{
+							"name": "Create ticket current user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation CreateTicket($createTicketInput: CreateTicketInput!) {\n  createTicket(createTicketInput: $createTicketInput) {\n    title,\n    createdAt,\n    status,\n  }\n}",
+										"variables": "{\n  \"createTicketInput\": {\n    \"title\": \"Example title\",\n    \"purchaseNumber\": 14,\n    \"problem\": \"Example problem\",\n    \"description\": \"Example description\"\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all tickets [admin, user]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Tickets($filterInput: FilterInput, $pagination: Pagination) {\n  tickets(filterInput: $filterInput, pagination: $pagination) {\n      email\n      tickets {\n          purchaseNumber,\n          title,\n          status,\n          purchaseDetail,\n          problem,\n          description,\n          createdAt,\n          updatedAt,\n          imageName\n      }\n  }\n}",
+										"variables": "{\n  \"filterInput\": {\n    \"status\": null,\n    \"purchaseNumber\": null,\n    \"filterParam\": null,\n    \"email\": null,\n    \"includeDeleted\": null\n  },\n  \"pagination\": {\n      \"limit\": null,\n      \"page\": null\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a ticket [admin, user]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation DeleteTicket {\n  deleteTicket(deleteInput: $deleteInput) {\n      isDeleted\n      purchaseNumber\n  }\n}",
+										"variables": "{\n    \"deleteInput\": {\n        \"purchaseNumber\": 14,\n        \"deleteAction\": true,\n        \"email\":\"edit@gmail.com\"\n    }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update ticket [admin, user]",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation UpdateTicket($updateTicketInput: UpdateTicketInput!) {\n  updateTicket(updateTicketInput: $updateTicketInput) {\n    purchaseNumber,\n    title,\n    createdAt,\n    status,\n    updatedAt,\n    isDeleted,\n  }\n}",
+										"variables": "{\n  \"updateTicketInput\": {\n    \"title\": \"Title example\",\n    \"purchaseNumber\": 7,\n    \"email\":\"edit@gmail.com\",\n    \"problem\": \"Problem example\",\n    \"description\": \"Description example\"\n  }\n}"
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}/api",
+									"host": [
+										"{{HOST}}"
+									],
+									"path": [
+										"api"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Rest API",
+			"item": [
+				{
+					"name": "Execute seed",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/seed",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"seed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ticket whit files",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "csv",
+									"type": "file",
+									"src": "/Users/maximilianogonzalez/Documents/tickets_csv_prueba.csv"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/maximilianogonzalez/Desktop/Screenshot 2023-03-31 at 11.25.38.png"
+								},
+								{
+									"key": "purchaseNumber",
+									"value": "52",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "title example",
+									"type": "text"
+								},
+								{
+									"key": "problem",
+									"value": "problem example",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "description example",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/ticket/create",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"ticket",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update ticket whit files",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "csv",
+									"type": "file",
+									"src": "/Users/maximilianogonzalez/Documents/tickets_csv_prueba.csv"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/maximilianogonzalez/Downloads/Copia de IMG-20221025-WA0225.jpg"
+								},
+								{
+									"key": "purchaseNumber",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "title example",
+									"type": "text"
+								},
+								{
+									"key": "problem",
+									"value": "problem example",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "description example",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "edit@gmail.com",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/ticket/update",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"ticket",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "http://localhost:3000",
+			"type": "default"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

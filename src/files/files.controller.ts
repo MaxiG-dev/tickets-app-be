@@ -13,6 +13,7 @@ import { CreateTicketInput } from '../tickets/dto/create-ticket.input';
 import { User } from '../users/entities/user.entity';
 import { FilesService } from './files.service';
 import { handlerFileFilter } from './helpers/fileFilter.helper';
+import { UpdateTicketInput } from 'src/tickets/dto/update-ticket.input';
 
 @Controller('api')
 @UseGuards(JwtAuthGuard)
@@ -63,7 +64,7 @@ export class FilesController {
       csv?: Express.Multer.File[];
       image?: Express.Multer.File[];
     },
-    @Body() createTicketInput: CreateTicketInput,
+    @Body() createTicketInput: UpdateTicketInput,
   ) {
     return this.filesService.createTicket(
       user,

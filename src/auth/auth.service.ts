@@ -24,13 +24,17 @@ export class AuthService {
     private readonly handleException: HandleException,
   ) {}
 
-  private getJwtToken(userEmail: string) {
-    return this.jwtService.sign({ email: userEmail });
+  private getJwtToken({ email, username, rol }: User): string {
+    return this.jwtService.sign({
+      email,
+      username,
+      rol,
+    });
   }
 
   async signup(signupInput: SignupInput): Promise<AuthResponse> {
     const user = await this.userService.create(signupInput);
-    const token = this.getJwtToken(user.email);
+    const token = this.getJwtToken(user);
     return { token, user };
   }
 
@@ -44,7 +48,7 @@ export class AuthService {
     if (!bcrypt.compareSync(loginInput.password, user.password)) {
       throw new BadRequestException('Invalid credentials');
     }
-    const token = this.getJwtToken(user.email);
+    const token = this.getJwtToken(user);
     return { token, user };
   }
 
@@ -60,7 +64,7 @@ export class AuthService {
   }
 
   revalidateToken(user: User): AuthResponse {
-    const token = this.getJwtToken(user.email);
+    const token = this.getJwtToken(user);
     return { token, user };
   }
 

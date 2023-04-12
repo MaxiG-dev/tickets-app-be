@@ -18,7 +18,7 @@ export class FilesService {
   async createTicket(
     user: User,
     files: any,
-    createTicketInput: CreateTicketInput,
+    createTicketInput: CreateTicketInput | UpdateTicketInput,
     method: string,
   ) {
     const csv = files.csv ? files.csv[0] : null;
@@ -82,7 +82,10 @@ export class FilesService {
     }
     const response =
       method === 'create'
-        ? await this.ticketsService.create(user, createTicketInput)
+        ? await this.ticketsService.create(
+            user,
+            createTicketInput as CreateTicketInput,
+          )
         : await this.ticketsService.update(
             user,
             createTicketInput as UpdateTicketInput,

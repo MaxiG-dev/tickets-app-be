@@ -49,7 +49,6 @@ export class UsersService {
     return response;
   }
 
-  // TODO: Make this function more generic, add a filter in the same method, and add a pagination, cross the findAll and findOne
   async findAll(pagination?: Pagination): Promise<User[]> {
     const limit = pagination?.limit ? pagination.limit : undefined;
     const page = pagination?.page ? pagination.page : 1;

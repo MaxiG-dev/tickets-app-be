@@ -21,10 +21,6 @@ export class TicketsService {
   async create(user: User, createTicketInput: CreateTicketInput) {
     const { purchaseNumber, ...restTicketInput } = createTicketInput;
 
-    // !! !! !! This is a temporary solution !! !! !!
-    // TODO: NOT validate if the ticket exists, try to create it and catch the error if it exists in the database
-    // !! !! !! This is a temporary solution !! !! !!
-
     const ticketExists = await this.find(
       { ...user, rol: ['admin'] },
       {
@@ -182,7 +178,7 @@ export class TicketsService {
       ),
       ConditionExpression: 'tickets.#purchaseNumber.isDeleted <> :t',
       ExpressionAttributeNames: {
-        '#purchaseNumber': purchaseNumber.toLocaleString(),
+        '#purchaseNumber': purchaseNumber.toString(),
       },
       ExpressionAttributeValues: { ...ticketToUpdate, ':t': true },
       ReturnValues: 'ALL_NEW',
@@ -208,7 +204,6 @@ export class TicketsService {
     const { purchaseNumber, deleteAction, email } = deleteInput;
     const isAdmin = user.rol.includes('admin');
 
-    // TODO: If email is null, set email to user.email
     if (
       (!isAdmin && !deleteAction) ||
       (!isAdmin && (!email || email !== user.email))
@@ -229,7 +224,7 @@ export class TicketsService {
       },
       UpdateExpression: 'SET tickets.#purchaseNumber.isDeleted = :newisDeleted',
       ExpressionAttributeNames: {
-        '#purchaseNumber': purchaseNumber.toLocaleString(),
+        '#purchaseNumber': purchaseNumber.toString(),
       },
       ExpressionAttributeValues: {
         ':newisDeleted': deleteAction,

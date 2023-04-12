@@ -6,8 +6,8 @@ import {
   IsIn,
   IsOptional,
   IsString,
-  IsStrongPassword,
   Length,
+  MinLength,
 } from 'class-validator';
 
 @InputType()
@@ -16,7 +16,7 @@ export class SignupInput {
   @Field()
   email: string;
 
-  @IsStrongPassword()
+  @MinLength(8)
   @Field()
   password: string;
 

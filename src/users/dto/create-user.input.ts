@@ -5,7 +5,7 @@ import {
   IsEmail,
   IsIn,
   IsOptional,
-  IsStrongPassword,
+  MinLength,
   Length,
 } from 'class-validator';
 import { CreateTicketInput } from '../../tickets/dto/create-ticket.input';
@@ -16,7 +16,7 @@ export class CreateUserInput {
   @Field()
   email: string;
 
-  @IsStrongPassword()
+  @MinLength(8)
   @Field()
   password: string;
 
